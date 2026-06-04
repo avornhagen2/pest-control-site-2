@@ -265,13 +265,7 @@ const ScrollExpandMedia = ({
                       alt={title || 'Media content'}
                       width={1280}
                       height={720}
-                      className='w-full h-full object-cover rounded-xl'
-                    />
-                    <motion.div
-                      className='absolute inset-0 bg-black/50 rounded-xl'
-                      initial={{ opacity: 0.7 }}
-                      animate={{ opacity: 0.7 - scrollProgress * 0.3 }}
-                      transition={{ duration: 0.2 }}
+                      className='w-full h-full object-contain rounded-xl'
                     />
                   </div>
                 )}
