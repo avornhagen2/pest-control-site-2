@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const SEGMENTS = [
   {
     slug: 'house-to-ants',
-    frameCount: 77,
+    frameCount: 76,
     heading: 'The Invasion Begins',
     subheading: 'Ants find their way into every crack and corner of your home.',
     tag: 'Ant Control',
@@ -14,7 +14,7 @@ const SEGMENTS = [
   },
   {
     slug: 'ants-to-roaches',
-    frameCount: 77,
+    frameCount: 76,
     heading: 'Roaches Follow Close Behind',
     subheading: 'Where ants lead, roaches breed — multiplying in the dark.',
     tag: 'Roach Elimination',
@@ -22,7 +22,7 @@ const SEGMENTS = [
   },
   {
     slug: 'roaches-to-mice',
-    frameCount: 77,
+    frameCount: 76,
     heading: 'Then Mice Move In',
     subheading: 'Rodents chew through wiring, walls, and your peace of mind.',
     tag: 'Rodent Control',

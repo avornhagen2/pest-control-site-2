@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(ffmpeg -i \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\video\\\\house-to-ants.mp4\" -vf \"fps=15,scale=1280:720\" -frames:v 1 \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\frames\\\\test.webp\" -y 2>&1)",
+      "Read(//e/Users/Austin V/E Drive Code Projects/pest-control-app/public/frames/**)"
+    ],
+    "additionalDirectories": [
+      "e:\\Users\\Austin V\\E Drive Code Projects\\pest-control-app\\public\\frames"
+    ]
+  }
+}
