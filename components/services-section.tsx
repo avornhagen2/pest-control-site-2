@@ -1,0 +1,167 @@
+import Image from 'next/image';
+import { Bug, ShieldCheck, Home, BadgeCheck, Clock, Star, Phone } from 'lucide-react';
+
+const services = [
+  {
+    icon: Bug,
+    title: 'Ant & Roach Control',
+    description:
+      'Targeted treatments that eliminate colonies and prevent roaches from breeding in walls, cabinets, and drains.',
+    image: '/images/roaches.png',
+    accent: '#4ade80',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Rodent Extermination',
+    description:
+      'Humane trapping, exclusion sealing, and baiting programs that remove mice and rats — and keep them out.',
+    image: '/images/mice.png',
+    accent: '#60a5fa',
+  },
+  {
+    icon: Home,
+    title: 'Termite Treatment',
+    description:
+      'Protect your home\'s structure with liquid treatments, bait stations, and annual monitoring plans.',
+    image: '/images/termites.png',
+    accent: '#fb923c',
+  },
+];
+
+const stats = [
+  { icon: BadgeCheck, label: 'Licensed & Insured', value: '100%' },
+  { icon: Clock, label: 'Same-Day Service', value: '24hr' },
+  { icon: Star, label: 'Customer Rating', value: '4.9' },
+  { icon: Phone, label: 'Emergency Line', value: '24/7' },
+];
+
+export default function ServicesSection() {
+  return (
+    <section className="bg-gradient-to-b from-black via-slate-950 to-green-950">
+      {/* Stats strip */}
+      <div className="border-b border-white/10">
+        <div className="mx-auto grid max-w-5xl grid-cols-2 md:grid-cols-4">
+          {stats.map((stat) => {
+            const Icon = stat.icon;
+            return (
+              <div
+                key={stat.label}
+                className="flex flex-col items-center gap-2 border-r border-white/10 px-6 py-8 last:border-r-0 text-center"
+              >
+                <Icon className="h-5 w-5 text-green-400" strokeWidth={1.5} />
+                <span className="text-3xl font-bold text-white">
+                  {stat.value}
+                </span>
+                <span className="text-xs uppercase tracking-widest text-white/40">
+                  {stat.label}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Services grid */}
+      <div className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mb-16 text-center">
+          <p className="mb-3 text-xs uppercase tracking-[0.3em] text-green-400">
+            Our Services
+          </p>
+          <h2 className="text-4xl font-bold text-white md:text-5xl">
+            Complete Protection for Your Home
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-base text-white/50">
+            Every infestation is different. Our licensed technicians customize a
+            treatment plan built around your home and the pests threatening it.
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {services.map((service) => {
+            const Icon = service.icon;
+            return (
+              <div
+                key={service.title}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/8"
+              >
+                {/* Image */}
+                <div className="relative h-52 w-full overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    width={600}
+                    height={400}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+
+                  {/* Icon badge */}
+                  <div
+                    className="absolute left-4 bottom-4 flex h-10 w-10 items-center justify-center rounded-xl border border-white/20"
+                    style={{ backgroundColor: service.accent + '25' }}
+                  >
+                    <Icon
+                      className="h-5 w-5"
+                      style={{ color: service.accent }}
+                      strokeWidth={1.5}
+                    />
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="mb-2 text-xl font-semibold text-white">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-white/55">
+                    {service.description}
+                  </p>
+                  <div className="mt-5 flex items-center gap-1.5 text-sm font-medium"
+                    style={{ color: service.accent }}>
+                    <span>Learn more</span>
+                    <span className="transition-transform duration-200 group-hover:translate-x-1">
+                      →
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* CTA section */}
+      <div className="border-t border-white/10">
+        <div className="mx-auto max-w-4xl px-6 py-24 text-center">
+          <p className="mb-3 text-xs uppercase tracking-[0.3em] text-green-400">
+            Act Now
+          </p>
+          <h2 className="mb-4 text-4xl font-bold text-white md:text-5xl">
+            Don&apos;t Let Pests Take Over Your Home
+          </h2>
+          <p className="mx-auto mb-10 max-w-lg text-base text-white/50">
+            Schedule a free inspection today. Our technicians will assess the
+            threat and build a custom protection plan — at no cost to you.
+          </p>
+
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <button className="group relative overflow-hidden rounded-full bg-green-500 px-8 py-4 text-sm font-semibold text-black transition-all duration-300 hover:bg-green-400">
+              Get Free Inspection
+            </button>
+            <button className="flex items-center gap-2 rounded-full border border-white/20 px-8 py-4 text-sm font-semibold text-white transition-all duration-200 hover:border-white/40 hover:bg-white/5">
+              <Phone className="h-4 w-4" />
+              Call (555) 123-4567
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="border-t border-white/10 py-8 text-center">
+        <p className="text-xs text-white/25">
+          &copy; 2026 GuardPest Solutions. Licensed, Bonded & Insured.
+        </p>
+      </div>
+    </section>
+  );
+}
