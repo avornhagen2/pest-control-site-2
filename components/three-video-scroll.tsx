@@ -134,7 +134,7 @@ export default function ThreeVideoScroll() {
       const n = SEGMENTS.length;
       const raw = totalProgress * n;
       const idx = Math.min(Math.floor(raw), n - 1);
-      const segProg = idx < n - 1 ? raw - idx : 1;
+      const segProg = raw - idx;
 
       if (idx !== currentIdx) {
         currentIdx = idx;
@@ -189,7 +189,7 @@ export default function ThreeVideoScroll() {
   const seg = SEGMENTS[activeIndex];
 
   return (
-    <div ref={wrapperRef} style={{ height: '400vh' }} className="relative">
+    <div ref={wrapperRef} style={{ height: '1200vh' }} className="relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
         {/* Three.js mount point */}
         <div ref={containerRef} className="absolute inset-0" />
