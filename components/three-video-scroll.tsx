@@ -116,7 +116,8 @@ export default function ThreeVideoScroll() {
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      textures[currentIdx].needsUpdate = true;
+      // Keep all video textures warm so segment transitions are instant
+      textures.forEach((t) => { t.needsUpdate = true; });
       renderer.render(scene, camera);
     };
     animate();
@@ -143,7 +144,9 @@ export default function ThreeVideoScroll() {
       }
 
       const video = videoEls[idx];
-      if (video.readyState >= 2 && video.duration) {
+      // Skip readyState check — re-seeking while a seek is in progress
+      // causes the browser to queue the latest value, not skip it.
+      if (video.duration) {
         const target = segProg * video.duration;
         if (Math.abs(video.currentTime - target) > 1 / 30) {
           video.currentTime = target;
