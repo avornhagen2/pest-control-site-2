@@ -2,187 +2,139 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import * as THREE from 'three';
 
 const SEGMENTS = [
   {
-    src: '/video/house-to-ants.mp4',
+    slug: 'house-to-ants',
+    frameCount: 77,
     heading: 'The Invasion Begins',
-    subheading:
-      'Ants find their way into every crack and corner of your home.',
+    subheading: 'Ants find their way into every crack and corner of your home.',
     tag: 'Ant Control',
     color: '#4ade80',
   },
   {
-    src: '/video/ants-to-roaches.mp4',
+    slug: 'ants-to-roaches',
+    frameCount: 77,
     heading: 'Roaches Follow Close Behind',
     subheading: 'Where ants lead, roaches breed — multiplying in the dark.',
     tag: 'Roach Elimination',
     color: '#fb923c',
   },
   {
-    src: '/video/roaches-to-mice.mp4',
+    slug: 'roaches-to-mice',
+    frameCount: 77,
     heading: 'Then Mice Move In',
-    subheading:
-      'Rodents chew through wiring, walls, and your peace of mind.',
+    subheading: 'Rodents chew through wiring, walls, and your peace of mind.',
     tag: 'Rodent Control',
     color: '#60a5fa',
   },
 ];
 
+const TOTAL_FRAMES = SEGMENTS.reduce((sum, s) => sum + s.frameCount, 0);
+
 export default function ThreeVideoScroll() {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const framesRef = useRef<HTMLImageElement[][]>([]);
+  const loadedRef = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [loadProgress, setLoadProgress] = useState(0);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.domElement.style.cssText =
-      'position:absolute;inset:0;width:100%;height:100%;';
-    container.appendChild(renderer.domElement);
+    const setSize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    setSize();
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      50,
-      container.clientWidth / container.clientHeight,
-      0.1,
-      100
-    );
-    camera.position.z = 2;
-
-    // Compute plane dimensions to fill the viewport exactly
-    const vFovRad = THREE.MathUtils.degToRad(camera.fov);
-    const planeH = 2 * Math.tan(vFovRad / 2) * camera.position.z;
-    const planeW = planeH * camera.aspect;
-
-    const geometry = new THREE.PlaneGeometry(planeW, planeH);
-
-    const videoEls: HTMLVideoElement[] = SEGMENTS.map((seg) => {
-      const v = document.createElement('video');
-      v.src = seg.src;
-      v.muted = true;
-      v.playsInline = true;
-      v.preload = 'auto';
-      v.crossOrigin = 'anonymous';
-      return v;
-    });
-
-    const textures = videoEls.map((v) => {
-      const t = new THREE.VideoTexture(v);
-      t.colorSpace = THREE.SRGBColorSpace;
-      t.minFilter = THREE.LinearFilter;
-      t.magFilter = THREE.LinearFilter;
-      t.generateMipmaps = false;
-      return t;
-    });
-
-    const material = new THREE.MeshBasicMaterial({ map: textures[0] });
-    const plane = new THREE.Mesh(geometry, material);
-    scene.add(plane);
-
-    let currentIdx = 0;
-    let animId = 0;
-    let loadedCount = 0;
-
-    const primeVideo = (video: HTMLVideoElement) => {
-      const tryPrime = () => {
-        video
-          .play()
-          .then(() => {
-            video.pause();
-            video.currentTime = 0;
-          })
-          .catch(() => {})
-          .finally(() => {
-            loadedCount++;
-            if (loadedCount === videoEls.length) setIsLoaded(true);
-          });
-      };
-      if (video.readyState >= 1) {
-        tryPrime();
+    const drawFrame = (img: HTMLImageElement) => {
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      const imgAspect = img.naturalWidth / img.naturalHeight;
+      const canvasAspect = w / h;
+      let sx = 0, sy = 0, sw = img.naturalWidth, sh = img.naturalHeight;
+      if (imgAspect > canvasAspect) {
+        sw = sh * canvasAspect;
+        sx = (img.naturalWidth - sw) / 2;
       } else {
-        video.addEventListener('loadedmetadata', tryPrime, { once: true });
-        video.load();
+        sh = sw / canvasAspect;
+        sy = (img.naturalHeight - sh) / 2;
       }
+      ctx.clearRect(0, 0, w, h);
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
     };
 
-    videoEls.forEach(primeVideo);
+    let loadedCount = 0;
+    const allFrames: HTMLImageElement[][] = SEGMENTS.map(() => []);
+    framesRef.current = allFrames;
 
-    const animate = () => {
-      animId = requestAnimationFrame(animate);
-      // Keep all video textures warm so segment transitions are instant
-      textures.forEach((t) => { t.needsUpdate = true; });
-      renderer.render(scene, camera);
-    };
-    animate();
+    SEGMENTS.forEach((seg, segIdx) => {
+      for (let i = 1; i <= seg.frameCount; i++) {
+        const img = new Image();
+        img.src = `/frames/${seg.slug}/frame-${String(i).padStart(4, '0')}.webp`;
+        img.onload = () => {
+          loadedCount++;
+          setLoadProgress(Math.round((loadedCount / TOTAL_FRAMES) * 100));
+          if (loadedCount === TOTAL_FRAMES) {
+            loadedRef.current = true;
+            setIsLoaded(true);
+            drawFrame(allFrames[0][0]);
+          }
+        };
+        allFrames[segIdx].push(img);
+      }
+    });
+
+    let currentSegIdx = 0;
 
     const onScroll = () => {
       const wrapper = wrapperRef.current;
-      if (!wrapper) return;
+      if (!wrapper || !loadedRef.current) return;
 
       const rect = wrapper.getBoundingClientRect();
       const scrollRoom = wrapper.offsetHeight - window.innerHeight;
-      const scrolled = -rect.top;
-      const totalProgress = Math.max(0, Math.min(1, scrolled / scrollRoom));
+      const scrolled = Math.max(0, -rect.top);
+      const totalProgress = Math.min(1, scrolled / scrollRoom);
 
       const n = SEGMENTS.length;
       const raw = totalProgress * n;
-      const idx = Math.min(Math.floor(raw), n - 1);
-      const segProg = raw - idx;
+      const segIdx = Math.min(Math.floor(raw), n - 1);
+      const segProg = Math.min(raw - segIdx, 1);
 
-      if (idx !== currentIdx) {
-        currentIdx = idx;
-        material.map = textures[idx];
-        material.needsUpdate = true;
-        setActiveIndex(idx);
+      if (segIdx !== currentSegIdx) {
+        currentSegIdx = segIdx;
+        setActiveIndex(segIdx);
       }
 
-      const video = videoEls[idx];
-      // Skip readyState check — re-seeking while a seek is in progress
-      // causes the browser to queue the latest value, not skip it.
-      if (video.duration) {
-        const target = segProg * video.duration;
-        if (Math.abs(video.currentTime - target) > 1 / 30) {
-          video.currentTime = target;
-        }
+      const frames = allFrames[segIdx];
+      if (frames?.length) {
+        const frameIdx = Math.min(Math.floor(segProg * frames.length), frames.length - 1);
+        const img = frames[frameIdx];
+        if (img?.complete) drawFrame(img);
       }
+    };
 
-      // Subtle 3D tilt: tilts right at start of segment, flat at center, left at end
-      plane.rotation.y = (0.5 - segProg) * 0.18;
+    const onResize = () => {
+      setSize();
+      onScroll();
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-
-    const onResize = () => {
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      renderer.setSize(w, h);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-    };
     window.addEventListener('resize', onResize);
 
     return () => {
-      cancelAnimationFrame(animId);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
-      videoEls.forEach((v) => {
-        v.pause();
-        v.src = '';
-      });
-      textures.forEach((t) => t.dispose());
-      geometry.dispose();
-      material.dispose();
-      renderer.dispose();
-      if (container.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement);
-      }
     };
   }, []);
 
@@ -191,8 +143,7 @@ export default function ThreeVideoScroll() {
   return (
     <div ref={wrapperRef} style={{ height: '1200vh' }} className="relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
-        {/* Three.js mount point */}
-        <div ref={containerRef} className="absolute inset-0" />
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
         {/* Cinematic gradient overlays */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85" />
@@ -203,7 +154,7 @@ export default function ThreeVideoScroll() {
           <div className="absolute inset-0 flex items-center justify-center bg-black">
             <div className="flex flex-col items-center gap-4">
               <div className="h-12 w-12 animate-spin rounded-full border-2 border-green-400 border-t-transparent" />
-              <p className="text-sm text-white/50">Loading animation...</p>
+              <p className="text-sm text-white/50">Loading animation... {loadProgress}%</p>
             </div>
           </div>
         )}
@@ -217,7 +168,7 @@ export default function ThreeVideoScroll() {
           </div>
         </div>
 
-        {/* Text overlay — transitions on segment change */}
+        {/* Text overlay */}
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 pb-16 px-6">
           <AnimatePresence mode="wait">
             <motion.div
