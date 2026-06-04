@@ -8,7 +8,7 @@ export default function Home() {
       {/* === Hero: scroll-expansion === */}
       <ScrollExpandMedia
         mediaType="image"
-        mediaSrc="/images/ants.png"
+        mediaSrc="/images/logo.png"
         bgImageSrc="/images/house.png"
         title="Protect Your Home"
         date="Pest Control Experts"
