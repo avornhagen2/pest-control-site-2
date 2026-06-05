@@ -28,6 +28,9 @@ export const metadata: Metadata = {
   title: "GuardPest Solutions — Professional Pest Control",
   description:
     "Licensed pest control experts. Ant, roach, rodent, and termite treatments for your home. Get a free inspection today.",
+  openGraph: {
+    images: [{ url: '/images/logo.png', alt: 'GuardPest Solutions' }],
+  },
 };
 
 export default function RootLayout({
