@@ -149,7 +149,7 @@ export default function ServicesSection() {
       <FAQSection />
 
       {/* CTA section */}
-      <div className="border-t border-white/10 relative overflow-hidden">
+      <div id="cta" className="border-t border-white/10 relative overflow-hidden">
         {/* Ambient glow */}
         <div className="absolute inset-0 pointer-events-none" aria-hidden>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full opacity-[0.07]"
@@ -188,14 +188,17 @@ export default function ServicesSection() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <div className="flex flex-col items-center gap-5 sm:flex-row sm:justify-center">
             <button className="group relative overflow-hidden rounded-full bg-green-500 px-8 py-4 text-sm font-semibold text-black transition-all duration-300 hover:bg-green-400">
               Get Free Inspection
             </button>
-            <button className="flex items-center gap-2 rounded-full border border-white/20 px-8 py-4 text-sm font-semibold text-white transition-all duration-200 hover:border-blue-400/30 hover:bg-blue-500/5 hover:text-blue-100">
-              <Phone className="h-4 w-4" />
-              Call (555) 123-4567
-            </button>
+            <a
+              href="tel:+15551234567"
+              className="flex items-center gap-2 text-sm text-white/55 hover:text-white transition-colors duration-200"
+            >
+              <Phone className="h-4 w-4 text-blue-400 shrink-0" />
+              (555) 123-4567
+            </a>
           </div>
         </div>
       </div>

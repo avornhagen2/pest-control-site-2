@@ -1,6 +1,11 @@
+'use client';
+
 import ScrollExpandMedia from '@/components/ui/scroll-expansion-hero';
 import ServicesSection from '@/components/services-section';
 import ThreeVideoScrollWrapper from '@/components/three-video-scroll-wrapper';
+
+const scrollToCta = () =>
+  document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' });
 
 export default function Home() {
   return (
@@ -29,7 +34,7 @@ export default function Home() {
             them out for good. Serving the area since 2008.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="rounded-full bg-green-500 px-8 py-3.5 text-sm font-semibold text-black transition-colors hover:bg-green-400">
+            <button onClick={scrollToCta} className="rounded-full bg-green-500 px-8 py-3.5 text-sm font-semibold text-black transition-colors hover:bg-green-400">
               Get Free Inspection
             </button>
             <button className="rounded-full border border-white/25 px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10">

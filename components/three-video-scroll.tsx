@@ -16,7 +16,7 @@ const CARDS = [
     heading:    'Your Home. Their Target.',
     subheading: 'Pests are patient. They find every weakness. We find them first.',
     tag:        'GuardPest Solutions',
-    color:      '#94a3b8',
+    color:      '#4ade80',
     threshold:  0,
   },
   {

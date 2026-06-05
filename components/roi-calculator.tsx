@@ -314,7 +314,10 @@ export default function ROICalculator() {
               );
             })}
 
-            <button className="mt-1 w-full rounded-full bg-green-500 px-6 py-4 text-sm font-semibold text-black transition-colors hover:bg-green-400 flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400">
+            <button
+              onClick={() => document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' })}
+              className="mt-1 w-full rounded-full bg-green-500 px-6 py-4 text-sm font-semibold text-black transition-colors hover:bg-green-400 flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400"
+            >
               Get Your Free Inspection
               <ChevronRight className="h-4 w-4" />
             </button>
