@@ -146,8 +146,8 @@ export default function ThreeVideoScroll() {
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
         {/* Cinematic gradient overlays */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/10" />
 
         {/* Loading screen */}
         {!isLoaded && (
