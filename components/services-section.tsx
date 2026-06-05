@@ -135,18 +135,24 @@ export default function ServicesSection() {
       </div>
 
       {/* How It Works */}
-      <HowItWorks />
+      <div id="how-it-works">
+        <HowItWorks />
+      </div>
 
       {/* ROI Calculator */}
-      <ROICalculator />
+      <div id="roi">
+        <ROICalculator />
+      </div>
 
       {/* Testimonials */}
-      <div className="border-t border-white/10">
+      <div id="testimonials" className="border-t border-white/10">
         <TestimonialsSection />
       </div>
 
       {/* FAQ */}
-      <FAQSection />
+      <div id="faq">
+        <FAQSection />
+      </div>
 
       {/* CTA section */}
       <div id="cta" className="border-t border-white/10 relative overflow-hidden">

@@ -9,7 +9,9 @@
       "Read(//c/Users/Austin V/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.5.0/.claude/skills/ui-ux-pro-max/**)",
       "Bash(python3 scripts/search.py \"pest control service ROI calculator dark minimal\" --design-system -p \"GuardPest ROI Calculator\" -f markdown)",
       "Bash(python scripts/search.py \"pest control service ROI calculator dark minimal\" --design-system -p \"GuardPest ROI Calculator\" -f markdown)",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "Bash(Get-ChildItem -Path \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)"
     ],
     "additionalDirectories": [
       "e:\\Users\\Austin V\\E Drive Code Projects\\pest-control-app\\public\\frames"
