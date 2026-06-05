@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "PowerShell(ffmpeg -i \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\video\\\\house-to-ants.mp4\" -vf \"fps=15,scale=1280:720\" -frames:v 1 \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\frames\\\\test.webp\" -y 2>&1)",
-      "Read(//e/Users/Austin V/E Drive Code Projects/pest-control-app/public/frames/**)"
+      "Read(//e/Users/Austin V/E Drive Code Projects/pest-control-app/public/frames/**)",
+      "Bash(Measure-Object)",
+      "Bash(Select-Object -ExpandProperty Count)",
+      "PowerShell(\\(ls \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\frames\\\\ants-to-roaches\"\\).Count; \\(ls \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\frames\\\\house-to-ants\"\\).Count; \\(ls \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\frames\\\\roaches-to-mice\"\\).Count)"
     ],
     "additionalDirectories": [
       "e:\\Users\\Austin V\\E Drive Code Projects\\pest-control-app\\public\\frames"

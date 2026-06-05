@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // Video clip data — drives which frames are drawn
 const SEGMENTS = [
-  { slug: 'house-to-ants',   frameCount: 76 },
-  { slug: 'ants-to-roaches', frameCount: 76 },
+  { slug: 'house-to-ants-upscaled',   frameCount: 76 },
+  { slug: 'ants-to-roaches-deblurred', frameCount: 76 },
   { slug: 'roaches-to-mice', frameCount: 76 },
 ];
 
