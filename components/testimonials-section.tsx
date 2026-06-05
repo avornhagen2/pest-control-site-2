@@ -74,7 +74,10 @@ export default function TestimonialsSection() {
         className="flex flex-col items-center justify-center max-w-[540px] mx-auto mb-14"
       >
         <div className="flex justify-center">
-          <div className="border border-white/20 text-white/60 text-xs uppercase tracking-widest py-1 px-4 rounded-lg">
+          <div className="border border-white/20 text-white/60 text-xs uppercase tracking-widest py-1 px-4 rounded-lg flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
             Testimonials
           </div>
         </div>
@@ -87,9 +90,9 @@ export default function TestimonialsSection() {
       </motion.div>
 
       <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden">
-        <TestimonialsColumn testimonials={firstColumn} duration={15} />
-        <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={19} />
-        <TestimonialsColumn testimonials={thirdColumn}  className="hidden lg:block" duration={17} />
+        <TestimonialsColumn testimonials={firstColumn} duration={15} accentColor="green" />
+        <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={19} accentColor="blue" />
+        <TestimonialsColumn testimonials={thirdColumn}  className="hidden lg:block" duration={17} accentColor="orange" />
       </div>
     </div>
   );

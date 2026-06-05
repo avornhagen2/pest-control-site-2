@@ -23,9 +23,16 @@ const PESTS = [
   { id: "bedbugs",  label: "Bed Bugs",        Icon: Zap,          riskPerYear: 2000, tip: "treatment & replacement costs"      },
 ] as const;
 
-// Professional pest control reduces ~55% more damage than DIY methods
 const PRO_DAMAGE_REDUCTION = 0.55;
-const HOURS_SAVED_PER_YEAR  = 42; // ~3.5 hrs/mo
+const HOURS_SAVED_PER_YEAR  = 42;
+
+// Per-stat color scheme: DIY savings→blue, damage avoided→orange, hours→blue, total→green
+const STAT_COLORS = [
+  { bg: "bg-blue-500/10",   border: "border-blue-500/20",   icon: "text-blue-400",   check: "text-blue-400/70"   },
+  { bg: "bg-orange-500/10", border: "border-orange-500/20", icon: "text-orange-400", check: "text-orange-400/70" },
+  { bg: "bg-blue-500/10",   border: "border-blue-500/20",   icon: "text-blue-400",   check: "text-blue-400/70"   },
+  { bg: "bg-green-500/10",  border: "border-green-500/20",  icon: "text-green-400",  check: "text-green-400/70"  },
+] as const;
 
 // ─── Animated number hook ────────────────────────────────────────────────────
 
@@ -41,7 +48,7 @@ function useAnimatedNumber(target: number, duration = 650) {
 
     const tick = (now: number) => {
       const t      = Math.min((now - start) / duration, 1);
-      const eased  = 1 - Math.pow(1 - t, 3); // ease-out cubic
+      const eased  = 1 - Math.pow(1 - t, 3);
       setDisplay(Math.round(from + (target - from) * eased));
       if (t < 1) rafRef.current = requestAnimationFrame(tick);
       else prevRef.current = target;
@@ -85,6 +92,37 @@ export default function ROICalculator() {
 
   const pct = (monthlyDIY / 150) * 100;
 
+  const statRows = [
+    {
+      Icon: DollarSign,
+      label: "DIY cost savings",
+      value: `$${animDelta.toLocaleString()}`,
+      unit: "/yr",
+      note: diyDelta === 0 ? "Increase if you spend more on DIY" : undefined,
+    },
+    {
+      Icon: Shield,
+      label: "Damage risk avoided",
+      value: `$${animDamage.toLocaleString()}`,
+      unit: "/yr",
+      note: undefined,
+    },
+    {
+      Icon: Clock,
+      label: "Hours reclaimed",
+      value: `${HOURS_SAVED_PER_YEAR}`,
+      unit: " hrs/yr",
+      note: "~3.5 hrs/mo of DIY treatments",
+    },
+    {
+      Icon: TrendingUp,
+      label: "Total annual value",
+      value: `$${animTotal.toLocaleString()}`,
+      unit: "/yr",
+      note: undefined,
+    },
+  ] as const;
+
   return (
     <div className="border-t border-white/10 py-24 px-6">
       <div className="mx-auto max-w-5xl">
@@ -98,6 +136,9 @@ export default function ROICalculator() {
           className="text-center mb-14"
         >
           <div className="inline-flex items-center gap-2 border border-white/20 text-white/50 text-xs uppercase tracking-widest py-1 px-4 rounded-lg mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
             <Calculator className="h-3 w-3" />
             ROI Calculator
           </div>
@@ -162,18 +203,27 @@ export default function ROICalculator() {
               <div className="grid grid-cols-2 gap-2">
                 {PESTS.map(({ id, label, Icon, riskPerYear, tip }) => {
                   const active = selectedPests.includes(id);
+                  // Match pest colors to service card colors
+                  const pestColor = id === "ants"
+                    ? { active: "border-green-500/50 bg-green-500/10", icon: "text-green-400", price: "text-green-400" }
+                    : id === "rodents"
+                    ? { active: "border-blue-500/50 bg-blue-500/10",  icon: "text-blue-400",  price: "text-blue-400"  }
+                    : id === "termites"
+                    ? { active: "border-orange-500/50 bg-orange-500/10", icon: "text-orange-400", price: "text-orange-400" }
+                    : { active: "border-orange-500/40 bg-orange-500/8",  icon: "text-orange-300", price: "text-orange-300" };
+
                   return (
                     <button
                       key={id}
                       onClick={() => togglePest(id)}
                       className={`rounded-xl px-4 py-3.5 text-left transition-all duration-200 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500/50 ${
                         active
-                          ? "border-green-500/50 bg-green-500/10"
+                          ? pestColor.active
                           : "border-white/10 bg-white/[0.03] hover:border-white/20"
                       }`}
                     >
                       <div className="flex items-center gap-2 mb-1.5">
-                        <Icon className={`h-3.5 w-3.5 shrink-0 ${active ? "text-green-400" : "text-white/25"}`} />
+                        <Icon className={`h-3.5 w-3.5 shrink-0 ${active ? pestColor.icon : "text-white/25"}`} />
                         <span className={`text-sm font-medium ${active ? "text-white" : "text-white/55"}`}>
                           {label}
                         </span>
@@ -241,54 +291,28 @@ export default function ROICalculator() {
             </div>
 
             {/* Stat rows */}
-            {([
-              {
-                Icon: DollarSign,
-                label: "DIY cost savings",
-                value: `$${animDelta.toLocaleString()}`,
-                unit: "/yr",
-                note: diyDelta === 0 ? "Increase if you spend more on DIY" : undefined,
-              },
-              {
-                Icon: Shield,
-                label: "Damage risk avoided",
-                value: `$${animDamage.toLocaleString()}`,
-                unit: "/yr",
-                note: undefined,
-              },
-              {
-                Icon: Clock,
-                label: "Hours reclaimed",
-                value: `${HOURS_SAVED_PER_YEAR}`,
-                unit: " hrs/yr",
-                note: "~3.5 hrs/mo of DIY treatments",
-              },
-              {
-                Icon: TrendingUp,
-                label: "Total annual value",
-                value: `$${animTotal.toLocaleString()}`,
-                unit: "/yr",
-                note: undefined,
-              },
-            ] as const).map(({ Icon, label, value, unit, note }) => (
-              <div
-                key={label}
-                className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 flex items-center gap-4"
-              >
-                <div className="h-9 w-9 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center shrink-0">
-                  <Icon className="h-4 w-4 text-green-400" />
+            {statRows.map(({ Icon, label, value, unit, note }, i) => {
+              const c = STAT_COLORS[i];
+              return (
+                <div
+                  key={label}
+                  className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 flex items-center gap-4"
+                >
+                  <div className={`h-9 w-9 rounded-xl ${c.bg} border ${c.border} flex items-center justify-center shrink-0`}>
+                    <Icon className={`h-4 w-4 ${c.icon}`} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-white/35 uppercase tracking-widest">{label}</p>
+                    <p className="text-lg font-bold text-white tabular-nums leading-tight">
+                      {value}
+                      <span className="text-sm font-normal text-white/35">{unit}</span>
+                    </p>
+                    {note && <p className="text-xs text-white/25 mt-0.5">{note}</p>}
+                  </div>
+                  <CheckCircle2 className={`h-4 w-4 ${c.check} shrink-0`} />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-white/35 uppercase tracking-widest">{label}</p>
-                  <p className="text-lg font-bold text-white tabular-nums leading-tight">
-                    {value}
-                    <span className="text-sm font-normal text-white/35">{unit}</span>
-                  </p>
-                  {note && <p className="text-xs text-white/25 mt-0.5">{note}</p>}
-                </div>
-                <CheckCircle2 className="h-4 w-4 text-green-400/70 shrink-0" />
-              </div>
-            ))}
+              );
+            })}
 
             <button className="mt-1 w-full rounded-full bg-green-500 px-6 py-4 text-sm font-semibold text-black transition-colors hover:bg-green-400 flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400">
               Get Your Free Inspection

@@ -149,24 +149,50 @@ export default function ServicesSection() {
       <FAQSection />
 
       {/* CTA section */}
-      <div className="border-t border-white/10">
-        <div className="mx-auto max-w-4xl px-6 py-24 text-center">
-          <p className="mb-3 text-xs uppercase tracking-[0.3em] text-green-400">
+      <div className="border-t border-white/10 relative overflow-hidden">
+        {/* Ambient glow */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full opacity-[0.07]"
+            style={{ background: 'radial-gradient(ellipse, #4ade80, transparent 70%)' }} />
+          <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[250px] rounded-full opacity-[0.05]"
+            style={{ background: 'radial-gradient(ellipse, #60a5fa, transparent 70%)' }} />
+          <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-[350px] h-[250px] rounded-full opacity-[0.05]"
+            style={{ background: 'radial-gradient(ellipse, #fb923c, transparent 70%)' }} />
+        </div>
+
+        <div className="relative mx-auto max-w-4xl px-6 py-24 text-center">
+          <p className="mb-3 text-xs uppercase tracking-[0.3em] text-orange-400">
             Act Now
           </p>
           <h2 className="mb-4 text-4xl font-bold text-white md:text-5xl">
             Don&apos;t Let Pests Take Over Your Home
           </h2>
-          <p className="mx-auto mb-10 max-w-lg text-base text-white/50">
+          <p className="mx-auto mb-8 max-w-lg text-base text-white/50">
             Schedule a free inspection today. Our technicians will assess the
             threat and build a custom protection plan — at no cost to you.
           </p>
+
+          {/* Feature pills */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
+            <div className="flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/10 px-4 py-2">
+              <ShieldCheck className="h-3.5 w-3.5 text-green-400" />
+              <span className="text-xs font-medium text-green-300">Free Inspection</span>
+            </div>
+            <div className="flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2">
+              <Clock className="h-3.5 w-3.5 text-blue-400" />
+              <span className="text-xs font-medium text-blue-300">Same-Day Service</span>
+            </div>
+            <div className="flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-2">
+              <BadgeCheck className="h-3.5 w-3.5 text-orange-400" />
+              <span className="text-xs font-medium text-orange-300">Satisfaction Guaranteed</span>
+            </div>
+          </div>
 
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <button className="group relative overflow-hidden rounded-full bg-green-500 px-8 py-4 text-sm font-semibold text-black transition-all duration-300 hover:bg-green-400">
               Get Free Inspection
             </button>
-            <button className="flex items-center gap-2 rounded-full border border-white/20 px-8 py-4 text-sm font-semibold text-white transition-all duration-200 hover:border-white/40 hover:bg-white/5">
+            <button className="flex items-center gap-2 rounded-full border border-white/20 px-8 py-4 text-sm font-semibold text-white transition-all duration-200 hover:border-blue-400/30 hover:bg-blue-500/5 hover:text-blue-100">
               <Phone className="h-4 w-4" />
               Call (555) 123-4567
             </button>
