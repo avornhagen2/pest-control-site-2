@@ -1,5 +1,9 @@
 import Image from 'next/image';
 import { Bug, ShieldCheck, Home, BadgeCheck, Clock, Star, Phone } from 'lucide-react';
+import TestimonialsSection from '@/components/testimonials-section';
+import ROICalculator from '@/components/roi-calculator';
+import HowItWorks from '@/components/how-it-works';
+import FAQSection from '@/components/faq-section';
 
 const services = [
   {
@@ -129,6 +133,20 @@ export default function ServicesSection() {
           })}
         </div>
       </div>
+
+      {/* How It Works */}
+      <HowItWorks />
+
+      {/* ROI Calculator */}
+      <ROICalculator />
+
+      {/* Testimonials */}
+      <div className="border-t border-white/10">
+        <TestimonialsSection />
+      </div>
+
+      {/* FAQ */}
+      <FAQSection />
 
       {/* CTA section */}
       <div className="border-t border-white/10">

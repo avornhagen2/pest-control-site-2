@@ -5,7 +5,10 @@
       "Read(//e/Users/Austin V/E Drive Code Projects/pest-control-app/public/frames/**)",
       "Bash(Measure-Object)",
       "Bash(Select-Object -ExpandProperty Count)",
-      "PowerShell(\\(ls \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\frames\\\\ants-to-roaches\"\\).Count; \\(ls \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\frames\\\\house-to-ants\"\\).Count; \\(ls \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\frames\\\\roaches-to-mice\"\\).Count)"
+      "PowerShell(\\(ls \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\frames\\\\ants-to-roaches\"\\).Count; \\(ls \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\frames\\\\house-to-ants\"\\).Count; \\(ls \"e:\\\\Users\\\\Austin V\\\\E Drive Code Projects\\\\pest-control-app\\\\public\\\\frames\\\\roaches-to-mice\"\\).Count)",
+      "Read(//c/Users/Austin V/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.5.0/.claude/skills/ui-ux-pro-max/**)",
+      "Bash(python3 scripts/search.py \"pest control service ROI calculator dark minimal\" --design-system -p \"GuardPest ROI Calculator\" -f markdown)",
+      "Bash(python scripts/search.py \"pest control service ROI calculator dark minimal\" --design-system -p \"GuardPest ROI Calculator\" -f markdown)"
     ],
     "additionalDirectories": [
       "e:\\Users\\Austin V\\E Drive Code Projects\\pest-control-app\\public\\frames"
