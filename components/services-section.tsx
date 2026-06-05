@@ -41,7 +41,7 @@ const stats = [
 
 export default function ServicesSection() {
   return (
-    <section className="bg-gradient-to-b from-black via-slate-950 to-green-950">
+    <section id="services" className="bg-gradient-to-b from-black via-slate-950 to-green-950">
       {/* Stats strip */}
       <div className="border-b border-white/10">
         <div className="mx-auto grid max-w-5xl grid-cols-2 md:grid-cols-4">

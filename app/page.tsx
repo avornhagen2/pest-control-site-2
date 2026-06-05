@@ -7,6 +7,9 @@ import ThreeVideoScrollWrapper from '@/components/three-video-scroll-wrapper';
 const scrollToCta = () =>
   document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' });
 
+const scrollToServices = () =>
+  document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+
 export default function Home() {
   return (
     <main className="bg-black">
@@ -37,7 +40,7 @@ export default function Home() {
             <button onClick={scrollToCta} className="rounded-full bg-green-500 px-8 py-3.5 text-sm font-semibold text-black transition-colors hover:bg-green-400">
               Get Free Inspection
             </button>
-            <button className="rounded-full border border-white/25 px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10">
+            <button onClick={scrollToServices} className="rounded-full border border-white/25 px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10">
               View Services
             </button>
           </div>
