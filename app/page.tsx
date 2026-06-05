@@ -4,11 +4,15 @@ import ScrollExpandMedia from '@/components/ui/scroll-expansion-hero';
 import ServicesSection from '@/components/services-section';
 import ThreeVideoScrollWrapper from '@/components/three-video-scroll-wrapper';
 
-const scrollToCta = () =>
-  document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' });
+const smoothScrollTo = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const y = el.getBoundingClientRect().top + window.scrollY;
+  window.scrollTo({ top: y, behavior: 'smooth' });
+};
 
-const scrollToServices = () =>
-  document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+const scrollToCta      = () => smoothScrollTo('cta');
+const scrollToServices = () => smoothScrollTo('services');
 
 export default function Home() {
   return (

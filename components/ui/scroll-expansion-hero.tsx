@@ -42,28 +42,40 @@ const ScrollExpandMedia = ({
 
   const sectionRef = useRef<HTMLDivElement | null>(null);
 
+  // Refs keep event-handler closures current without needing the effect to re-run
+  const mediaFullyExpandedRef = useRef(false);
+  const scrollProgressRef     = useRef(0);
+  const touchStartYRef        = useRef(0);
+
+  const setExpanded = (value: boolean) => {
+    mediaFullyExpandedRef.current = value;
+    setMediaFullyExpanded(value);
+  };
+
   useEffect(() => {
     setScrollProgress(0);
+    scrollProgressRef.current = 0;
     setShowContent(false);
-    setMediaFullyExpanded(false);
+    setExpanded(false);
   }, [mediaType]);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
-        setMediaFullyExpanded(false);
+      if (mediaFullyExpandedRef.current && e.deltaY < 0 && window.scrollY <= 5) {
+        setExpanded(false);
         e.preventDefault();
-      } else if (!mediaFullyExpanded) {
+      } else if (!mediaFullyExpandedRef.current) {
         e.preventDefault();
         const scrollDelta = e.deltaY * 0.0009;
         const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
+          Math.max(scrollProgressRef.current + scrollDelta, 0),
           1
         );
+        scrollProgressRef.current = newProgress;
         setScrollProgress(newProgress);
 
         if (newProgress >= 1) {
-          setMediaFullyExpanded(true);
+          setExpanded(true);
           setShowContent(true);
         } else if (newProgress < 0.75) {
           setShowContent(false);
@@ -72,45 +84,49 @@ const ScrollExpandMedia = ({
     };
 
     const handleTouchStart = (e: TouchEvent) => {
+      touchStartYRef.current = e.touches[0].clientY;
       setTouchStartY(e.touches[0].clientY);
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (!touchStartY) return;
+      if (!touchStartYRef.current) return;
 
       const touchY = e.touches[0].clientY;
-      const deltaY = touchStartY - touchY;
+      const deltaY = touchStartYRef.current - touchY;
 
-      if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= 5) {
-        setMediaFullyExpanded(false);
+      if (mediaFullyExpandedRef.current && deltaY < -20 && window.scrollY <= 5) {
+        setExpanded(false);
         e.preventDefault();
-      } else if (!mediaFullyExpanded) {
+      } else if (!mediaFullyExpandedRef.current) {
         e.preventDefault();
         const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
         const scrollDelta = deltaY * scrollFactor;
         const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
+          Math.max(scrollProgressRef.current + scrollDelta, 0),
           1
         );
+        scrollProgressRef.current = newProgress;
         setScrollProgress(newProgress);
 
         if (newProgress >= 1) {
-          setMediaFullyExpanded(true);
+          setExpanded(true);
           setShowContent(true);
         } else if (newProgress < 0.75) {
           setShowContent(false);
         }
 
+        touchStartYRef.current = touchY;
         setTouchStartY(touchY);
       }
     };
 
     const handleTouchEnd = (): void => {
+      touchStartYRef.current = 0;
       setTouchStartY(0);
     };
 
     const handleScroll = (): void => {
-      if (!mediaFullyExpanded) {
+      if (!mediaFullyExpandedRef.current) {
         window.scrollTo(0, 0);
       }
     };
@@ -147,7 +163,8 @@ const ScrollExpandMedia = ({
       );
       window.removeEventListener('touchend', handleTouchEnd as EventListener);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY]);
+  // Handlers read from refs — no state deps needed, effect runs once
+  }, []);
 
   useEffect(() => {
     const checkIfMobile = (): void => {
@@ -192,8 +209,6 @@ const ScrollExpandMedia = ({
               }}
               priority
             />
-            <div className='absolute inset-0 bg-black/40' />
-            <div className='absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60' />
           </motion.div>
 
           <div className='container mx-auto flex flex-col items-center justify-start relative z-10'>
@@ -228,12 +243,6 @@ const ScrollExpandMedia = ({
                         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                         allowFullScreen
                       />
-                      <motion.div
-                        className='absolute inset-0 bg-black/30 rounded-xl'
-                        initial={{ opacity: 0.7 }}
-                        animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
-                        transition={{ duration: 0.2 }}
-                      />
                     </div>
                   ) : (
                     <div className='relative w-full h-full pointer-events-none'>
@@ -250,12 +259,6 @@ const ScrollExpandMedia = ({
                         disablePictureInPicture
                         disableRemotePlayback
                       />
-                      <motion.div
-                        className='absolute inset-0 bg-black/30 rounded-xl'
-                        initial={{ opacity: 0.7 }}
-                        animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
-                        transition={{ duration: 0.2 }}
-                      />
                     </div>
                   )
                 ) : (
@@ -266,12 +269,6 @@ const ScrollExpandMedia = ({
                       width={1280}
                       height={720}
                       className='w-full h-full object-cover rounded-xl'
-                    />
-                    <motion.div
-                      className='absolute inset-0 bg-black/50 rounded-xl'
-                      initial={{ opacity: 0.7 }}
-                      animate={{ opacity: 0.7 - scrollProgress * 0.3 }}
-                      transition={{ duration: 0.2 }}
                     />
                   </div>
                 )}
