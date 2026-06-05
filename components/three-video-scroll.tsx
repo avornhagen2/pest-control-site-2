@@ -10,7 +10,7 @@ const SEGMENTS = [
     heading: 'The Invasion Begins',
     subheading: 'Ants find their way into every crack and corner of your home.',
     tag: 'Ant Control',
-    color: '#4ade80',
+    color: '#5CFF8A',
   },
   {
     slug: 'ants-to-roaches',
@@ -153,8 +153,8 @@ export default function ThreeVideoScroll() {
         {!isLoaded && (
           <div className="absolute inset-0 flex items-center justify-center bg-black">
             <div className="flex flex-col items-center gap-4">
-              <div className="h-12 w-12 animate-spin rounded-full border-2 border-green-400 border-t-transparent" />
-              <p className="text-sm text-white/50">Loading animation... {loadProgress}%</p>
+              <div className="h-12 w-12 animate-spin rounded-full border-2 border-t-transparent" style={{ borderColor: '#5CFF8A', borderTopColor: 'transparent' }} />
+              <p className="text-sm text-[#F4F7F2]/50" style={{ fontFamily: 'var(--font-inter)' }}>Loading animation... {loadProgress}%</p>
             </div>
           </div>
         )}
@@ -162,7 +162,7 @@ export default function ThreeVideoScroll() {
         {/* Top label */}
         <div className="pointer-events-none absolute left-0 right-0 top-8 flex justify-center">
           <div className="rounded-full border border-white/15 bg-black/40 px-5 py-2 backdrop-blur-md">
-            <p className="text-xs uppercase tracking-[0.3em] text-white/50">
+            <p className="text-xs uppercase tracking-[0.3em] text-[#F4F7F2]/50" style={{ fontFamily: 'var(--font-inter)' }}>
               Scroll to See the Story
             </p>
           </div>
@@ -182,6 +182,7 @@ export default function ThreeVideoScroll() {
               <div
                 className="mb-5 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-widest"
                 style={{
+                  fontFamily: 'var(--font-inter)',
                   color: seg.color,
                   borderColor: seg.color + '55',
                   backgroundColor: seg.color + '18',
@@ -193,10 +194,18 @@ export default function ThreeVideoScroll() {
                 />
                 {seg.tag}
               </div>
-              <h2 className="mb-4 text-4xl font-bold leading-tight tracking-tight text-white md:text-6xl">
+              <h2
+                className="mb-4 text-4xl leading-tight tracking-tight md:text-6xl"
+                style={{
+                  fontFamily: 'var(--font-sora)',
+                  fontWeight: 800,
+                  color: '#F4F7F2',
+                  textShadow: '0 2px 16px rgba(0,0,0,0.35)',
+                }}
+              >
                 {seg.heading}
               </h2>
-              <p className="mx-auto max-w-md text-base leading-relaxed text-white/60 md:text-lg">
+              <p className="mx-auto max-w-md text-base leading-relaxed md:text-lg" style={{ color: '#F4F7F2', opacity: 0.65, fontFamily: 'var(--font-inter)' }}>
                 {seg.subheading}
               </p>
             </motion.div>
