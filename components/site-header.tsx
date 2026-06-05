@@ -1,7 +1,7 @@
 'use client';
 
 const NAV_ITEMS = [
-  { label: 'Our Story', id: 'story' },
+  { label: 'Pest Threats', id: 'story' },
   { label: 'Services', id: 'services' },
   { label: 'How It Works', id: 'how-it-works' },
   { label: 'ROI', id: 'roi' },

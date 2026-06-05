@@ -13,14 +13,14 @@ const SEGMENTS = [
 // Text card data — threshold is the totalProgress (0–1) at which the card appears
 const CARDS = [
   {
-    heading:    'Your Home. Their Target.',
+    heading:    '3 Places Pests Cause Problems',
     subheading: 'Pests are patient. They find every weakness. We find them first.',
     tag:        'GuardPest Solutions',
     color:      '#4ade80',
     threshold:  0,
   },
   {
-    heading:    'The Invasion Begins',
+    heading:    'Ants Exploit Every Opening',
     subheading: 'Ants find their way into every crack and corner of your home.',
     tag:        'Ant Control',
     color:      '#5CFF8A',
