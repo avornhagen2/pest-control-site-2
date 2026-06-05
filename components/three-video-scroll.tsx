@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // Video clip data — drives which frames are drawn
 const SEGMENTS = [
-  { slug: 'house-to-ants-upscaled',    frameCount: 76 },
-  { slug: 'ants-to-roaches-upscaled',  frameCount: 76 },
-  { slug: 'roaches-to-mice-upscaled',  frameCount: 76 },
+  { slug: 'house-to-ants-upscaled-deblurred',   frameCount: 76 },
+  { slug: 'ants-to-roaches-upscaled-deblurred',  frameCount: 76 },
+  { slug: 'roaches-to-mice-upscaled-deblurred',  frameCount: 76 },
 ];
 
 // Text card data — threshold is the totalProgress (0–1) at which the card appears
